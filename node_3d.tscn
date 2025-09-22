@@ -1,10 +1,52 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbx5rsh77fy4w"]
+[gd_scene load_steps=14 format=3 uid="uid://dbx5rsh77fy4w"]
 
 [ext_resource type="PackedScene" uid="uid://c6xg5gdtrqcne" path="res://assets/Walking.tscn" id="1_a202f"]
 [ext_resource type="Script" uid="uid://bv1x2wiqt0u6e" path="res://node_3d.gd" id="1_noarx"]
+[ext_resource type="PackedScene" uid="uid://dwox00vyi68m7" path="res://assets/Punching.tscn" id="3_a0tk4"]
+[ext_resource type="Shader" uid="uid://b68ywks5xu2ma" path="res://node_3d.gdshader" id="4_r3fl7"]
+[ext_resource type="Texture2D" uid="uid://c8wdlc5xooa1j" path="res://assets/grassdirt-big.png" id="5_jka67"]
+[ext_resource type="PackedScene" uid="uid://e8n0xb2uvar4" path="res://assets/dark_tree_-_dol_guldur.glb" id="6_i5arm"]
+[ext_resource type="PackedScene" uid="uid://brgdxxbga4u48" path="res://assets/japanese_torii_gate.glb" id="7_wc5p8"]
+[ext_resource type="PackedScene" uid="uid://iy5ms4752jxw" path="res://assets/bush.glb" id="8_jsk3o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jka67"]
+render_priority = 0
+shader = ExtResource("4_r3fl7")
+shader_parameter/albedo_tex = ExtResource("5_jka67")
+shader_parameter/tile_scale = 16.0
+shader_parameter/tint = Vector3(0.25, 0.4, 0.25)
+shader_parameter/darkness = -51.335
+shader_parameter/roughness_val = 1.0
+shader_parameter/ao_val = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a0tk4"]
+material = SubResource("ShaderMaterial_jka67")
+size = Vector2(200, 200)
+subdivide_width = 64
+subdivide_depth = 64
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jka67"]
+
+[sub_resource type="Sky" id="Sky_i5arm"]
+sky_material = SubResource("ProceduralSkyMaterial_jka67")
+
+[sub_resource type="Environment" id="Environment_wc5p8"]
+background_mode = 2
+sky = SubResource("Sky_i5arm")
+ambient_light_color = Color(0.415686, 0.478431, 0.509804, 1)
+ambient_light_energy = 0.35
+tonemap_mode = 2
+fog_enabled = true
+fog_light_energy = 0.21
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_noarx")
+
+[node name="Sketchfab_Scene4" parent="." instance=ExtResource("8_jsk3o")]
+transform = Transform3D(2.275, 0, 0, 0, 2.275, 0, 0, 0, 2.275, 10.795, 0, -4)
+
+[node name="Sketchfab_Scene5" parent="." instance=ExtResource("8_jsk3o")]
+transform = Transform3D(2.275, 0, 0, 0, 2.275, 0, 0, 0, 2.275, 4.795, 0.785, -8)
 
 [node name="Walking" parent="." instance=ExtResource("1_a202f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0233121, -0.347208, -0.0631026)
@@ -13,10 +55,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0233121, -0.347208, -0.0631
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.243, -0.347, -0.063)
 
 [node name="Walking3" parent="." instance=ExtResource("1_a202f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.10272, -0.347, -0.063)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.607, -0.347, 0.138)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.881666, 0.471874, 0, -0.471874, 0.881666, 2.32592, 2.43376, 7.96457)
+transform = Transform3D(1, 0, 0, 0, 0.973754, 0.227603, 0, -0.227603, 0.973754, 3.32592, 3.43376, 10.9646)
+fov = 47.8125
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.61003, 8.82651, 8.37626)
+light_energy = 0.5
+light_indirect_energy = 0.4
+shadow_enabled = true
+
+[node name="Punching" parent="." instance=ExtResource("3_a0tk4")]
+transform = Transform3D(9.89551e-06, 0, -131.07, 0, 131.07, 0, 131.07, 0, 9.89551e-06, 8.083, -0.455, -0.212)
+
+[node name="GloomGrass" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_a0tk4")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wc5p8")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("6_i5arm")]
+transform = Transform3D(0.305, 0, 0, 0, 0.305, 0, 0, 0, 0.305, 6, 0.15, -6)
+
+[node name="Sketchfab_Scene2" parent="." instance=ExtResource("7_wc5p8")]
+transform = Transform3D(0.38, 0, 0, 0, 0.38, 0, 0, 0, 0.38, 1, 1, -4)
+
+[node name="Sketchfab_Scene3" parent="." instance=ExtResource("8_jsk3o")]
+transform = Transform3D(2.275, 0, 0, 0, 2.275, 0, 0, 0, 2.275, -4, 0, -7)
